@@ -15,6 +15,43 @@ https://github.com/siderolabs/talos/releases
 
 https://blog.stephane-robert.info/docs/cloud/outscale/kubernetes-talos/
 
+# Créer les vm sans disque
+
+# Gérération de l'image
+
+https://factory.talos.dev
+
+custom
+
+```
+customization:
+    extraKernelArgs:
+        - -console
+        - console=ttyS0
+        - console=tty0
+        - net.ifnames=0
+    systemExtensions:
+        officialExtensions:
+            - siderolabs/qemu-guest-agent
+            - siderolabs/util-linux-tools
+```
+
+télécharger le fichier xz
+
+sur la console pve
+
+ cd /tmp
+wget https://factory.talos.dev/image/YOUR_SCHEMATIC/v1.8.4/nocloud-amd64.raw.xz
+unxz nocloud-amd64.raw.xz
+
+Importer le disque sur les vm
+
+```
+qm importdisk 101 /tmp/nocloud-amd64.raw data2
+qm importdisk 102 /tmp/nocloud-amd64.raw data2
+qm importdisk 103 /tmp/nocloud-amd64.raw data2
+```
+
 
 # Installation kubectl
 
