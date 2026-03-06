@@ -60,9 +60,25 @@ talosctl kubeconfig .
 export KUBECONFIG=kubeconfig
 ```
 
+# Ajout des autres control-plane
+
+Une fois le bootstrap du cluster effectué, on applique simplement le même `controlplane.yaml` aux nœuds supplémentaires.
+Talos se charge automatiquement de les intégrer dans etcd et le cluster.
+
+```
+talosctl apply-config --insecure --nodes 192.168.18.242 --file _out/controlplane.yaml
+talosctl apply-config --insecure --nodes 192.168.18.243 --file _out/controlplane.yaml
+```
+
+On peut vérifier que les nœuds ont rejoint le cluster :
+
+```
+kubectl get nodes
+```
+
 # Bootstrap des worker
 
 ```
 export WORKER_IP=192.168.18.244
-talosctl apply-config --insecure --nodes $WORKER_IP --file worker.yaml
+talosctl apply-config --insecure --nodes $WORKER_IP --file _out/worker.yaml
 ```
